@@ -6,7 +6,7 @@ const { validationResult } = require('express-validator');
 const validateFields = (req, res = response , next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        response.status(400).json({
+        res.status(400).json({
             ok:false,
             msg: 'Bad information sent!',
             errors: errors.mapped()

@@ -1,10 +1,11 @@
 /**
  * ruta base: /api/hospitals
  */
- const { Router }  = require('express');
- const { getHospitals, createHospital, updateHospital, deleteHospital } = require('../controllers/hospitals.controller');
-
- const { validateJWT } = require('../middlewares/tokenValidation');
+const { Router }  = require('express');
+const { check } = require('express-validator');
+const { getHospitals, createHospital, updateHospital, deleteHospital } = require('../controllers/hospitals.controller');
+const { validateJWT } = require('../middlewares/tokenValidation');
+const { validateFields } = require('../middlewares/validations');
  
  const router = Router();
  
@@ -15,7 +16,10 @@
  router.post( 
      '/createHospital', 
      [
-     ] ,
+        validateJWT,
+        check('name', 'name is required').not().isEmpty(),
+        validateFields
+    ], 
      createHospital 
  );
  
