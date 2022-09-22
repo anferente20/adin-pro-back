@@ -9,7 +9,7 @@
  const router = Router();
  
  //get all hospitals
- router.get( '/', validateJWT );
+ router.get( '/', getHospitals );
  
  //create hospital
  router.post( 

@@ -2,26 +2,26 @@
 const getHospitals = (req, res) => {
     res.json({
         ok: true,
-        msg: 'hospitals'
+        msg: 'get hospitals'
     })
 }
 
 const createHospital = (req, res) => {
     res.json({
         ok: true,
-        msg: 'hospitals'
+        msg: 'create hospitals'
     })
 }
 const updateHospital = (req, res) => {
     res.json({
         ok: true,
-        msg: 'hospitals'
+        msg: 'update hospitals'
     })
 }
 const deleteHospital = (req, res) => {
     res.json({
         ok: true,
-        msg: 'hospitals'
+        msg: 'delete hospitals'
     })
 }
 
