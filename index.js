@@ -23,7 +23,9 @@ dbConnection();
 
 //Create routes
 app.use('/api/users', require('./routes/users.route'));
+app.use('/api/hospitals', require('./routes/hospitals.route'));
 app.use('/api/login', require('./routes/auth.route'));
+
 
 
 app.listen( process.env.PORT , () => {
