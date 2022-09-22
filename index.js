@@ -6,9 +6,14 @@ const express = require('express');
 const { dbConnection } = require('./database/config');
 var cors = require('cors');
 
-
-//Create express sercer
+//Create express server
 const app = express();
+
+//read body
+app.use( express.json() );
+
+
+
 
 // Configure CORS
 app.use( cors() );
@@ -17,12 +22,9 @@ app.use( cors() );
 dbConnection();
 
 //Create routes
-app.get( '/', ( request, response ) => {
-    response.json({
-        ok: true,
-        msg: 'Wenas'
-    })
-} );
+app.use('/api/users', require('./routes/users.route'));
+app.use('/api/login', require('./routes/auth.route'));
+
 
 app.listen( process.env.PORT , () => {
     console.log('Servidor corriendo por port ' + process.env.PORT);
