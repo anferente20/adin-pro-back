@@ -1,7 +1,5 @@
-const { v4: uuidv4 } = require('uuid');
-const User = require ('../models/user');
-const Doctor = require ('../models/Doctor');
-const Hospital = require ('../models/hospital');
+const { v4: uuidv4 } = require('uuid'); 
+const { updateImage } = require('../helpers/updateImage');
 
 
 //uplad image to specific id of especific collection
@@ -10,7 +8,7 @@ const uploadImage   =  async ( req, res ) => {
     const uid = req.params.id || '';
     const table = req.params.table || '';
     console.log(table);
-    const validTypes = ['user', 'hospitals', 'doctors'];
+    const validTypes = ['users', 'hospitals', 'doctors'];
     if (!validTypes.includes(table)){
         return res.status(400).json({
             ok: false,
@@ -42,10 +40,10 @@ const uploadImage   =  async ( req, res ) => {
     }
 
     //generate image name
-    const newName = `${uuidv4()}.${extension}`;
+    const newFileName = `${uuidv4()}.${extension}`;
 
     //create path
-    const path = `./uploads/${table}/${newName}`;
+    const path = `./uploads/${table}/${newFileName}`;
 
     //move image
     file.mv(path, (err) => {
@@ -55,10 +53,21 @@ const uploadImage   =  async ( req, res ) => {
                 msg: 'Unexpected error when move image... see logs'
             });
         }
+
+        //update DB
+        const imageUpdated = updateImage(table, uid, newFileName);
+
+        if ( !imageUpdated ) {
+            return response.status(500).json({
+                ok:false,
+                msg: 'The Datbase register could not be updated'
+            });
+        }
+
         res.json({
             ok: true,
             msg: 'File uploaded',
-            fileName: newName
+            fileName: newFileName
         });
     });
 }
