@@ -3,9 +3,6 @@ const Doctor = require ('../models/Doctor');
 const Hospital = require ('../models/hospital');
 
 
-const encrypt = require('bcryptjs');
-const { generateJWT } = require('../helpers/jwt.helper');
-
 //search all collections
 const search  =  async ( req, res ) => {
 
