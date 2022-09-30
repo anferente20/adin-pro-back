@@ -2,17 +2,18 @@
  * ruta base: /api/search:param
  */
  const { Router }  = require('express');
- const { search } = require('../controllers/search.controller');
+ const { search,  searchCollection } = require('../controllers/search.controller');
  const { check } = require('express-validator');
  const { validateFields } = require('../middlewares/validations');
  const { validateJWT } = require('../middlewares/tokenValidation');
  
  const router = Router();
  
- //get all users
+ //SEARCH ALL
  router.get( '/:search', validateJWT ,search );
  
- //create user
+ //search by collection
+ router.get( '/:table/:search', validateJWT ,searchCollection );
  
  
  module.exports = router;

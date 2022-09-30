@@ -6,7 +6,7 @@ const Hospital = require ('../models/hospital');
 const encrypt = require('bcryptjs');
 const { generateJWT } = require('../helpers/jwt.helper');
 
-//get all users
+//search all collections
 const search  =  async ( req, res ) => {
 
     const param = req.params.search || '';
@@ -28,6 +28,45 @@ const search  =  async ( req, res ) => {
     });
 }
 
+//search especific collection
+const searchCollection   =  async ( req, res ) => {
+
+    const param = req.params.search || '';
+    const table = req.params.table || '';
+    const regex = new RegExp(param, 'i');
+
+    results = [];
+
+    switch(table) {
+        case 'users': 
+            results = await User.find({ name: regex });
+        break;
+        case 'doctors':
+            results = await Doctor.find({ name: regex })
+                .populate('user', 'name email')
+                .populate('hospital', 'name');
+        break;
+        case 'hospitals':
+            results = await Hospital.find({ name: regex })
+                .populate('user', 'name email');
+        break;
+        default:
+            return res.status(400).json({
+                ok: false,
+                msg: 'Plese show a collection among users, doctors and hospitals.'
+            })
+        break;
+    }
+
+    res.json({
+        ok: true,
+        search: param,
+        results
+    });
+}
+
+
 module.exports = {
-    search
+    search,
+    searchCollection
 }
