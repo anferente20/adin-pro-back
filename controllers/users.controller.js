@@ -8,7 +8,7 @@ const getUsers  =  async ( request, response ) => {
     const init = Number(request.query.init) || 0;
  
     const [users, total] = await Promise.all([
-         User.find({}, 'name email role googleToken')
+         User.find({}, 'name email role googleToken image')
             .skip(init)
             .limit(5),
         User.count()

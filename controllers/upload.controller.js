@@ -1,5 +1,7 @@
 const { v4: uuidv4 } = require('uuid'); 
 const { updateImage } = require('../helpers/updateImage');
+const path = require('path');
+const fs = require('fs');
 
 
 //uplad image to specific id of especific collection
@@ -72,7 +74,23 @@ const uploadImage   =  async ( req, res ) => {
     });
 }
 
+const getImage = (req, res) => {
+
+    const image = req.params.image;
+    const table = req.params.table;
+
+    var pathImg = path.join( __dirname, `../uploads/${ table }/${ image }`);
+
+
+    if (!fs.existsSync(pathImg)) {
+       pathImg = path.join( __dirname, process.env.NO_IMG);
+    }
+
+    res.sendFile(pathImg);
+}
+
 
 module.exports = {
-    uploadImage
+    uploadImage,
+    getImage
 }

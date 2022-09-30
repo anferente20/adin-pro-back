@@ -2,7 +2,7 @@
  * ruta base: /api/search:param
  */
  const { Router }  = require('express');
- const { search,  searchCollection } = require('../controllers/search.controller');
+ const { search,  searchCollection, searchImage } = require('../controllers/search.controller');
  const { check } = require('express-validator');
  const { validateFields } = require('../middlewares/validations');
  const { validateJWT } = require('../middlewares/tokenValidation');
@@ -14,6 +14,7 @@
  
  //search by collection
  router.get( '/:table/:search', validateJWT ,searchCollection );
- 
+
+
  
  module.exports = router;

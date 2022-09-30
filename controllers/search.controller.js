@@ -65,5 +65,5 @@ const searchCollection   =  async ( req, res ) => {
 
 module.exports = {
     search,
-    searchCollection
+    searchCollection,
 }
