@@ -19,6 +19,7 @@ const { validateFields } = require('../middlewares/validations');
      [
         validateJWT,
         check('name', 'name is required').not().isEmpty(),
+        check('hospital', 'name  must be vslif').isMongoId(),
         validateFields
      ] ,
      createDoctor 
