@@ -71,6 +71,9 @@ const googleAuth = async (req, res = response) => {
 
     res.json({
       ok: true,
+      name,
+      email,
+      picture,
       token,
     });
   } catch (error) {
