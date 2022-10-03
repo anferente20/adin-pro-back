@@ -6,17 +6,19 @@ const express = require('express');
 const { dbConnection } = require('./database/config');
 var cors = require('cors');
 
+
+
 //Create express server
 const app = express();
 
 //read body
 app.use( express.json() );
 
-
-
-
 // Configure CORS
 app.use( cors() );
+
+//public info
+app.use( express.static( 'public' ) );
 
 //connect to database
 dbConnection();
