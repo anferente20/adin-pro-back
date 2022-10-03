@@ -48,11 +48,30 @@ const googleAuth = async (req, res = response) => {
   try {
     const { email, picture, name } = await googleVerify(gToken);
 
+    const userDB = await User.findOne({ email });
+    let user;
+    if (!userDB) {
+      user = new User({
+        name: name,
+        email: email,
+        password: "@@@",
+        image: picture,
+        googleToken: true,
+      });
+    } else {
+      user = userDB;
+      user.googleToken = true;
+    }
+
+    //save user
+    await user.save();
+
+    //Generate token
+    const token = await generateJWT(user.id);
+
     res.json({
       ok: true,
-      email,
-      picture,
-      name,
+      token,
     });
   } catch (error) {
     console.log(error);
