@@ -113,7 +113,7 @@ const deleteUser = async (request, response) => {
     console.log(uid);
     response.status(200).json({
       ok: true,
-      msg: "Usuario eliminado",
+      msg: "User deleted",
     });
   } catch (error) {
     console.log(error);
