@@ -38,7 +38,7 @@ const updateHospital = async (req, res) => {
     console.log(req.body);
     const hodpitalDB = await Hospital.findById(uid);
     if (!hodpitalDB) {
-      response.status(404).json({
+      res.status(404).json({
         ok: false,
         msg: "Hospital not found",
       });
