@@ -1,69 +1,66 @@
-const User = require ('../models/user');
-const Doctor = require ('../models/doctor');
-const Hospital = require ('../models/hospital');
-
+const User = require("../models/user");
+const Doctor = require("../models/doctor");
+const Hospital = require("../models/hospital");
 
 //search all collections
-const search  =  async ( req, res ) => {
+const search = async (req, res) => {
+  const param = req.params.search || "";
+  const regex = new RegExp(param, "i");
 
-    const param = req.params.search || '';
-    const regex = new RegExp(param, 'i');
+  const [users, hospitals, doctors] = await Promise.all([
+    User.find({ name: regex }),
+    Hospital.find({ name: regex }),
+    Doctor.find({ name: regex }),
+  ]);
 
-    const [users, hospitals, doctors] = await Promise.all([
-        User.find({ name: regex }),
-        Hospital.find({ name: regex }),
-        Doctor.find({ name: regex })
-    ]);
-
-
-    res.json({
-        ok: true,
-        search: param,
-        users,
-        hospitals,
-        doctors
-    });
-}
+  res.json({
+    ok: true,
+    search: param,
+    users,
+    hospitals,
+    doctors,
+  });
+};
 
 //search especific collection
-const searchCollection   =  async ( req, res ) => {
+const searchCollection = async (req, res) => {
+  const param = req.params.search || "";
+  const table = req.params.table || "";
+  const regex = new RegExp(param, "i");
 
-    const param = req.params.search || '';
-    const table = req.params.table || '';
-    const regex = new RegExp(param, 'i');
+  results = [];
 
-    results = [];
+  switch (table) {
+    case "users":
+      results = await User.find({ name: regex });
+      break;
+    case "doctors":
+      results = await Doctor.find({ name: regex })
+        .populate("user", "name email")
+        .populate("hospital", "name");
+      break;
+    case "hospitals":
+      results = await Hospital.find({ name: regex }).populate(
+        "user",
+        "name email"
+      );
+      break;
+    default:
+      return res.status(400).json({
+        ok: false,
+        msg: "Plese show a collection among users, doctors and hospitals.",
+      });
+      break;
+  }
 
-    switch(table) {
-        case 'users': 
-            results = await User.find({ name: regex });
-        break;
-        case 'doctors':
-            results = await Doctor.find({ name: regex })
-                .populate('user', 'name email')
-                .populate('hospital', 'name');
-        break;
-        case 'hospitals':
-            results = await Hospital.find({ name: regex })
-                .populate('user', 'name email');
-        break;
-        default:
-            return res.status(400).json({
-                ok: false,
-                msg: 'Plese show a collection among users, doctors and hospitals.'
-            })
-        break;
-    }
-
-    res.json({
-        ok: true,
-        search: param,
-        results
-    });
-}
-
+  res.json({
+    ok: true,
+    search: param,
+    results,
+  });
+};
 
 module.exports = {
-    search,
-    searchCollection,
-}
+  search,
+  searchCollection,
+};

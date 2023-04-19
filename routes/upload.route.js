@@ -1,21 +1,20 @@
 /**
  * ruta base: /api/uploads/
  */
- const { Router }  = require('express');
- const fileUpload = require('express-fileupload');
- const { uploadImage, getImage } = require('../controllers/upload.controller');
- const { check } = require('express-validator');
- const { validateFields } = require('../middlewares/validations');
- const { validateJWT } = require('../middlewares/tokenValidation');
- 
- const router = Router();
- router.use(fileUpload()); 
+const { Router } = require("express");
+const fileUpload = require("express-fileupload");
+const { uploadImage, getImage } = require("../controllers/upload.controller");
+const { check } = require("express-validator");
+const { validateFields } = require("../middlewares/validations");
+const { validateJWT } = require("../middlewares/tokenValidation");
 
- //upload image by collection
- router.put( '/:table/:id', validateJWT , uploadImage );
- 
-  //Search image  by collection
-  router.get( '/:table/:image', validateJWT , getImage );
+const router = Router();
+router.use(fileUpload());
 
- 
- module.exports = router;
+//upload image by collection
+router.put("/:table/:id", validateJWT, uploadImage);
+
+//Search image  by collection
+router.get("/:table/:image", validateJWT, getImage);
+
+module.exports = router;
