@@ -15,6 +15,6 @@ router.use(fileUpload());
 router.put("/:table/:id", validateJWT, uploadImage);
 
 //Search image  by collection
-router.get("/:table/:image", validateJWT, getImage);
+router.get("/:table/:image", getImage);
 
 module.exports = router;
